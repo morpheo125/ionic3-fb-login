@@ -1,4 +1,4 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Testing Ionic 3.0 framework combined with new angularfire
 
 ## How to use this template
 
