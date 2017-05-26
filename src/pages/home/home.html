@@ -1,14 +1,72 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Ionic 3 Firebase Login
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <ion-card [hidden]="!(user | async)">
+    <ion-card-header>
+      User Data
+    </ion-card-header>
+
+    <ion-item>
+      <ion-avatar item-left [hidden]="!(user | async)?.photoURL">
+        <img [src]="(user | async)?.photoURL">
+      </ion-avatar>
+      <h2>{{ (user | async)?.displayName }}</h2>
+      <p>{{ (user | async)?.email }}</p>
+    </ion-item>
+  </ion-card>
+
+  <ion-card [hidden]="!showUpdateProfile">
+    <ion-card-header>
+      Update user profile
+    </ion-card-header>
+
+    <ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input clearInput type="text" [(ngModel)]="profile.first"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input clearInput type="text" [(ngModel)]="profile.last"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Avatar Photo Url</ion-label>
+      <ion-input clearInput type="text" [(ngModel)]="profile.photoURL"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button color="danger" outline (click)="showUpdateProfile = false">Cancel</button>
+      <button ion-button color="secondary" outline (click)="updateProfile()">Update</button>
+    </ion-item>
+  </ion-card>
+
+  <ion-list [hidden]="(user | async)?.uid">
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input clearInput type="email" #email></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input clearInput type="password" #password></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button block (click)="loginRedirect()">Login with Google (redirect)</button>
+  <button ion-button block (click)="loginWithEmail(email.value, password.value)">Login with Email</button>
+  <button ion-button block color="secondary" (click)="createUserWithEmail(email.value, password.value)">Create User with Email</button>
+  <button ion-button block color="dark" outline (click)="showUpdateProfile = !showUpdateProfile">Update Profile</button>
+  <button ion-button block color="danger" (click)="logout()">Logout</button>
+
+  <!--<ion-item>
+    <pre>{{ user | async | json }}</pre>
+  </ion-item>-->
 </ion-content>
